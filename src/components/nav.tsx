@@ -2,6 +2,7 @@ import { HiBell, HiMenu, HiX } from "react-icons/hi";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
+
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -10,7 +11,7 @@ const user = {
 };
 const navigation = [
   { name: "Overview", href: "/" },
-  { name: "Git", href: "/git" },
+  { name: "GitProvider", href: "/git" },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },
@@ -21,13 +22,14 @@ const userNavigation = [
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
 }
+
 export default function Nav() {
   const location = useLocation();
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <div className="flex-shrink-0">

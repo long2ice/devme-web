@@ -5,7 +5,7 @@ export default function Overview() {
   return (
     <div>
       <header className="bg-white shadow">
-        <div className="flex items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center max-w-7xl mx-auto py-6">
           <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
           <Link to="/project" className="ml-auto">
             <button className="btn gap-2">
