@@ -1,7 +1,8 @@
 import { FaGithub, FaGitlab } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { get_git, GitProvider, add_git } from "../apis/git";
+import { add_git, get_git, GitProvider } from "../apis/git";
 import { format_time } from "../utils";
+import { IoMdAdd } from "react-icons/io";
 
 export default function Git() {
   const [selectAll, setSelectAll] = useState(false);
@@ -11,25 +12,105 @@ export default function Git() {
   const [token, setToken] = useState("");
   const [type, setType] = useState("github");
 
+  async function add_git_provider() {
+    await add_git(name, type, token);
+  }
+
   useEffect(() => {
     (async () => {
       setGitProviders(await get_git());
     })();
   }, []);
 
-  async function add_git_provider() {
-    await add_git(name, type, token);
-  }
-
   return (
     <div>
       <header className="bg-white shadow">
         <div className="flex items-center max-w-7xl mx-auto py-6">
           <h1 className="text-3xl font-bold text-gray-900">GitProvider</h1>
+          <label htmlFor="add-git" className="btn ml-auto modal-button">
+            <IoMdAdd size="1.5em" />
+            New Git Provider
+          </label>
         </div>
+        <input type="checkbox" id="add-git" className="modal-toggle" />
+        <label className="modal cursor-pointer" htmlFor="add-git">
+          <div className="modal-box">
+            <h2>Add Git Provider</h2>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">
+                  Your git provider identifier name
+                </span>
+              </label>
+              <input
+                type="text"
+                className="input input-bordered w-full max-w-xs"
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+              />
+            </div>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Git provider type</span>
+              </label>
+              <div className="flex gap-4">
+                <label className="flex gap-2 items-center">
+                  <FaGithub size="2em" />
+                  <input
+                    type="radio"
+                    name="type"
+                    className="radio"
+                    checked
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setType("github");
+                      }
+                    }}
+                  />
+                </label>
+                <label className="flex gap-2 items-center">
+                  <FaGitlab size="2em" color="#ea580c" />
+                  <input
+                    type="radio"
+                    name="type"
+                    className="radio checked:bg-orange-600"
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setType("gitlab");
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Your git provider token</span>
+              </label>
+              <input
+                type="text"
+                className="input input-bordered w-full max-w-xs"
+                value={token}
+                onChange={(event) => {
+                  setToken(event.target.value);
+                }}
+              />
+            </div>
+            <div className="modal-action">
+              <button
+                className="btn"
+                onClick={async () => await add_git_provider()}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </label>
       </header>
       <main>
-        <div className="flex justify-center items-start mt-[5%] gap-10">
+        <div className="flex justify-center mt-[5%]">
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
@@ -91,81 +172,6 @@ export default function Git() {
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className="card bg-base-100 shadow-xl w-[20%]">
-            <div className="card-body">
-              <h2 className="card-title">Add Git Provider</h2>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">
-                    Your git provider identifier name
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full max-w-xs"
-                  value={name}
-                  onChange={(event) => {
-                    setName(event.target.value);
-                  }}
-                />
-              </div>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">Git provider type</span>
-                </label>
-                <div className="flex gap-4">
-                  <label className="flex gap-2 items-center">
-                    <FaGithub size="2em" />
-                    <input
-                      type="radio"
-                      name="type"
-                      className="radio"
-                      checked
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          setType("github");
-                        }
-                      }}
-                    />
-                  </label>
-                  <label className="flex gap-2 items-center">
-                    <FaGitlab size="2em" color="#ea580c" />
-                    <input
-                      type="radio"
-                      name="type"
-                      className="radio checked:bg-orange-600"
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          setType("gitlab");
-                        }
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">Your git provider token</span>
-                </label>
-                <input
-                  type="text"
-                  className="input input-bordered w-full max-w-xs"
-                  value={token}
-                  onChange={(event) => {
-                    setToken(event.target.value);
-                  }}
-                />
-              </div>
-              <div className="card-actions justify-end">
-                <button
-                  className="btn"
-                  onClick={async () => await add_git_provider()}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </main>

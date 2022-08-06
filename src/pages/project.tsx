@@ -1,5 +1,5 @@
 import { FaGithub, FaGitlab } from "react-icons/fa";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { get_git, GitProvider } from "../apis/git";
 
@@ -49,9 +49,9 @@ export default function Project() {
         </div>
 
         <div className="card-actions">
-          <a className="link mt-10 text-gray-700 no-underline">
+          <div className="link mt-10 text-gray-700 no-underline hover:cursor-pointer">
             Import Third-Party Git Repository →
-          </a>
+          </div>
         </div>
       </div>
     </div>
