@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
   { name: "Overview", href: "/" },
-  { name: "GitProvider", href: "/git" },
+  { name: "Settings", href: "/settings" },
 ];
 
 function classNames(...classes: Array<string>) {
@@ -18,11 +18,13 @@ export default function Nav() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img
-                className="h-8 w-8"
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                alt="Workflow"
-              />
+              <Link to="/">
+                <img
+                  className="h-8 w-8"
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                  alt="Workflow"
+                />
+              </Link>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">

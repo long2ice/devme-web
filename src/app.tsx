@@ -1,12 +1,13 @@
 import Overview from "./pages/overview";
 import { Routes, Route } from "react-router-dom";
-import Project from "./pages/project";
-import Git from "./pages/git";
+import NewProject from "./pages/new-project";
+import Settings from "./pages/settings";
 import Nav from "./components/nav";
 import Footer from "./components/footer";
 import NotFound from "./components/404";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Project from "./pages/project";
 
 export default function App() {
   return (
@@ -20,7 +21,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Overview />} />
         <Route path="/project" element={<Project />} />
-        <Route path="/git" element={<Git />} />
+        <Route path="/new-project" element={<NewProject />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
