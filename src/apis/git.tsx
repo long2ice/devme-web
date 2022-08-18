@@ -1,20 +1,12 @@
 import axios from "../axios";
+import { Repo } from "../types/responses";
 
-interface GitProvider {
-  id: number;
-  name: string;
-  type: string;
-  token: string;
-  created_at: string;
-  updated_at: string;
-}
-
-async function get_git() {
+async function getGit() {
   const res = await axios.get("/git");
   return res.data;
 }
 
-async function add_git(name: string, type: string, token: string) {
+async function addGit(name: string, type: string, token: string) {
   const res = await axios.post("/git", {
     name,
     type,
@@ -23,5 +15,9 @@ async function add_git(name: string, type: string, token: string) {
   return res.data;
 }
 
-export { get_git, add_git };
-export type { GitProvider };
+async function getGitRepos(id: number): Promise<Array<Repo>> {
+  const res = await axios.get(`/git/${id}/repo`);
+  return res.data;
+}
+
+export { getGit, addGit, getGitRepos };

@@ -1,7 +1,8 @@
 import { FaGithub, FaGitlab } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { get_git, GitProvider } from "../apis/git";
-import { format_time } from "../utils";
+import { getGit } from "../apis/git";
+import { formatTime } from "../utils";
+import { GitProvider } from "../types/responses";
 
 export default function Settings() {
   const [selectAll, setSelectAll] = useState(false);
@@ -10,7 +11,7 @@ export default function Settings() {
 
   useEffect(() => {
     (async () => {
-      setGitProviders(await get_git());
+      setGitProviders(await getGit());
     })();
   }, []);
 
@@ -91,8 +92,8 @@ export default function Settings() {
                     </th>
                     <td>{item.name}</td>
                     <td>{item.token}</td>
-                    <td>{format_time(item.created_at)}</td>
-                    <td>{format_time(item.updated_at)}</td>
+                    <td>{formatTime(item.created_at)}</td>
+                    <td>{formatTime(item.updated_at)}</td>
                   </tr>
                 ))}
               </tbody>
