@@ -2,6 +2,7 @@ import { FaGithub, FaGitlab } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { add_git, get_git, GitProvider } from "../apis/git";
 import { IoMdAdd } from "react-icons/io";
+import { BiGitBranch } from "react-icons/bi";
 
 export default function NewProject() {
   const [gitProviders, setGitProviders] = useState<Array<GitProvider>>([]);
@@ -23,6 +24,54 @@ export default function NewProject() {
       <header className="bg-white shadow">
         <div className="flex items-center max-w-7xl mx-auto py-6">
           <h1 className="text-3xl font-bold text-gray-900">New Project</h1>
+          <label
+            htmlFor="import-third-repo"
+            className="btn modal-button ml-auto"
+          >
+            Import Third-Party Git Repository →
+          </label>
+          <input
+            type="checkbox"
+            id="import-third-repo"
+            className="modal-toggle"
+          />
+          <label htmlFor="import-third-repo" className="modal cursor-pointer">
+            <label className="modal-box relative" htmlFor="import-third-repo">
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-8 border-b justify-center items-center pb-2">
+                  <h3 className="text-lg font-bold">
+                    Import a Third-Party Git Repository
+                  </h3>
+                  <div className="flex gap-4">
+                    <FaGithub size="2em" />
+                    <FaGitlab size="2em" color="#ea580c" />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <div>
+                    Enter the
+                    <span className="font-bold"> URL of a Git repository </span>
+                    to deploy it:
+                  </div>
+                  <div className="form-control">
+                    <label className="input-group">
+                      <span>
+                        <BiGitBranch size="2em" />
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="https://github.com/long2ice/devme.git"
+                        className="input input-bordered w-full"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="self-end">
+                  <button className="btn">Continue</button>
+                </div>
+              </div>
+            </label>
+          </label>
         </div>
       </header>
       <div className="card bg-base-100 shadow-xl mx-[20%] mt-[2%]">
@@ -68,7 +117,7 @@ export default function NewProject() {
                   <h2 className="card-title">Add Git Provider</h2>
                   <div className="form-control w-full max-w-xs">
                     <label className="label">
-                      <span className="label-text">Name</span>
+                      <span className="label-text font-bold">Name</span>
                     </label>
                     <input
                       type="text"
@@ -82,7 +131,7 @@ export default function NewProject() {
                   </div>
                   <div className="form-control w-full max-w-xs">
                     <label className="label">
-                      <span className="label-text">Type</span>
+                      <span className="label-text font-bold">Git Provider</span>
                     </label>
                     <div className="flex gap-4">
                       <label className="flex gap-2 items-center">
@@ -116,7 +165,7 @@ export default function NewProject() {
                   </div>
                   <div className="form-control w-full max-w-xs">
                     <label className="label">
-                      <span className="label-text">Token</span>
+                      <span className="label-text font-bold">Token</span>
                     </label>
                     <input
                       type="text"
@@ -138,12 +187,6 @@ export default function NewProject() {
                   </div>
                 </div>
               </label>
-            </div>
-          </div>
-
-          <div className="card-actions">
-            <div className="link mt-10 text-gray-700 no-underline hover:cursor-pointer">
-              Import Third-Party Git Repository →
             </div>
           </div>
         </div>

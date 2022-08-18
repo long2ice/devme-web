@@ -1,52 +1,45 @@
-import { Disclosure } from "@headlessui/react";
-import { Link, useLocation } from "react-router-dom";
-
-const navigation = [
-  { name: "Overview", href: "/" },
-  { name: "Settings", href: "/settings" },
-];
-
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(" ");
-}
+import { Link } from "react-router-dom";
 
 export default function Nav() {
-  const location = useLocation();
   return (
-    <Disclosure as="nav" className="bg-gray-800">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img
-                  className="h-8 w-8"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                  alt="Workflow"
-                />
-              </Link>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={classNames(
-                      item.href === location.pathname
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "px-3 py-2 rounded-md text-sm font-medium"
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="navbar bg-neutral text-neutral-content">
+      <div className="flex-1">
+        <Link className="btn btn-ghost normal-case text-xl" to="/">
+          DevME
+        </Link>
       </div>
-    </Disclosure>
+      <div className="flex-none">
+        <ul className="menu menu-horizontal p-0">
+          <li>
+            <a>Item 1</a>
+          </li>
+          <li tabIndex={0}>
+            <a>
+              Parent
+              <svg
+                className="fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+              </svg>
+            </a>
+            <ul className="p-2 bg-neutral">
+              <li>
+                <a>Submenu 1</a>
+              </li>
+              <li>
+                <a>Submenu 2</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a>Item 3</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }
