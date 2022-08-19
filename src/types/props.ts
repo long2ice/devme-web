@@ -1,8 +1,19 @@
-import { GitProvider, Repo } from "./responses";
+import { GitProvider } from "./responses";
 
 interface ImportProps {
-  repos: Array<Repo>;
+  gitID: number;
   gits: Array<GitProvider>;
 }
 
-export type { ImportProps };
+interface GitIconProps {
+  type: "github" | "gitlab";
+  size?: string;
+  className?: string;
+  color?: string;
+}
+
+interface LinkImportProps {
+  gitURL: string;
+}
+
+export type { ImportProps, GitIconProps, LinkImportProps };

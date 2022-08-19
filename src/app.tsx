@@ -8,6 +8,7 @@ import NotFound from "./components/404";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Project from "./pages/project";
+import ImportProject from "./pages/import-project";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/" element={<Overview />} />
         <Route path="/project" element={<Project />} />
         <Route path="/new-project" element={<NewProject />} />
+        <Route path="/import-project" element={<ImportProject />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

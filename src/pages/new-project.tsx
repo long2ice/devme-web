@@ -1,17 +1,20 @@
-import { FaGithub, FaGitlab } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { addGit, getGit, getGitRepos } from "../apis/git";
+import { addGit, getGit } from "../apis/git";
 import { IoMdAdd } from "react-icons/io";
 import { BiGitBranch } from "react-icons/bi";
-import { GitProvider, Repo } from "../types/responses";
+import { GitProvider } from "../types/responses";
 import Import from "../components/import";
+import GitIcon from "../components/git-icon";
+import { Link } from "react-router-dom";
+import LinkImport from "../components/link-import";
 
 export default function NewProject() {
   const [gitProviders, setGitProviders] = useState<Array<GitProvider>>([]);
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
   const [type, setType] = useState("github");
-  const [repos, setRepos] = useState<Array<Repo> | null>(null);
+  const [gitID, setGitID] = useState(0);
+  const [gitURL, setGitURL] = useState("");
 
   async function addGitProvider() {
     await addGit(name, type, token);
@@ -22,11 +25,6 @@ export default function NewProject() {
       setGitProviders(await getGit());
     })();
   }, []);
-
-  async function getRepos(id: number) {
-    let repos = await getGitRepos(id);
-    setRepos(repos);
-  }
 
   return (
     <div>
@@ -52,8 +50,8 @@ export default function NewProject() {
                     Import a Third-Party Git Repository
                   </h3>
                   <div className="flex gap-4">
-                    <FaGithub size="2em" />
-                    <FaGitlab size="2em" color="#ea580c" />
+                    <GitIcon type="github" />
+                    <GitIcon type="gitlab" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -69,6 +67,8 @@ export default function NewProject() {
                       </span>
                       <input
                         type="text"
+                        value={gitURL}
+                        onChange={(event) => setGitURL(event.target.value)}
                         placeholder="https://github.com/long2ice/devme.git"
                         className="input input-bordered w-full"
                       />
@@ -76,7 +76,7 @@ export default function NewProject() {
                   </div>
                 </div>
                 <div className="self-end">
-                  <button className="btn">Continue</button>
+                  <LinkImport gitURL={gitURL} />
                 </div>
               </div>
             </label>
@@ -87,8 +87,8 @@ export default function NewProject() {
       <div className="card bg-base-100 shadow-xl mx-[20%] mt-[2%]">
         <div className="card-body">
           <h2 className="card-title">Import Git Repository</h2>
-          {repos ? (
-            <Import repos={repos} gits={gitProviders} />
+          {gitID ? (
+            <Import gitID={gitID} gits={gitProviders} />
           ) : (
             <div className="card bg-gray-100 shadow-xl py-[5%] px-[20%] gap-2 mt-5">
               <p className="mb-[5%] text-gray-500">
@@ -100,18 +100,27 @@ export default function NewProject() {
                   <button
                     className="btn gap-4 flex flex-col justify-center"
                     key={g.id}
-                    onClick={async () => await getRepos(g.id)}
+                    onClick={() => setGitID(g.id)}
                   >
-                    <FaGithub size="1.5em" className="self-start absolute" />
+                    <GitIcon
+                      type={g.type}
+                      size="1.5em"
+                      className="self-start absolute"
+                    />
                     <span className="self-center w-full">{g.name}</span>
                   </button>
                 ) : (
                   <button
                     key={g.id}
-                    onClick={async () => await getRepos(g.id)}
+                    onClick={() => setGitID(g.id)}
                     className="flex flex-col justify-center justify-start btn gap-4 bg-orange-500 hover:bg-orange-600 border-orange-500 hover:border-orange-600"
                   >
-                    <FaGitlab size="1.5em" className="self-start absolute" />
+                    <GitIcon
+                      type={g.type}
+                      size="1.5em"
+                      className="self-start absolute"
+                      color=""
+                    />
                     <span className="self-center w-full">{g.name}</span>
                   </button>
                 )
@@ -151,7 +160,7 @@ export default function NewProject() {
                       </label>
                       <div className="flex gap-4">
                         <label className="flex gap-2 items-center">
-                          <FaGithub size="2em" />
+                          <GitIcon type="github" />
                           <input
                             type="radio"
                             name="type"
@@ -165,7 +174,7 @@ export default function NewProject() {
                           />
                         </label>
                         <label className="flex gap-2 items-center">
-                          <FaGitlab size="2em" color="#ea580c" />
+                          <GitIcon type="gitlab" />
                           <input
                             type="radio"
                             name="type"

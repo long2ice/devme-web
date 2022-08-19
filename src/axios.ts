@@ -13,4 +13,18 @@ http.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+http.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    let response = error.response;
+    if (response.status < 500) {
+      toast.error(response.data.error);
+    } else {
+      toast.error("Server Error");
+    }
+    return Promise.reject(error);
+  }
+);
 export default http;

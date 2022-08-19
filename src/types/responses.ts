@@ -1,7 +1,7 @@
 interface GitProvider {
   id: number;
   name: string;
-  type: string;
+  type: "github" | "gitlab";
   token: string;
   created_at: string;
   updated_at: string;
