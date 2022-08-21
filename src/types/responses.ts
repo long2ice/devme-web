@@ -1,3 +1,5 @@
+import { Env, FrameworkType } from "./schemas";
+
 interface GitProvider {
   id: number;
   name: string;
@@ -13,4 +15,22 @@ interface Repo {
   pushed_at: string;
 }
 
-export type { GitProvider, Repo };
+interface FrameworkInfo {
+  type: string;
+  image: string;
+}
+
+interface Project {
+  id: number;
+  name: string;
+  url: string;
+  framework: FrameworkType;
+  image: string;
+  root: string;
+  deployment: Record<string, any>;
+  env: Env;
+  created_at: string;
+  updated_at: string;
+}
+
+export type { GitProvider, Repo, FrameworkInfo, Project };

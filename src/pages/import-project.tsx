@@ -1,20 +1,24 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getFramework } from "../apis/framework";
+import { getAllFramework } from "../apis/framework";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { TiDelete } from "react-icons/ti";
-
-interface Env {
-  name: string;
-  value: string;
-}
+import Html from "../components/framework/html";
+import { FrameworkInfo } from "../types/responses";
+import { FrameworkProps } from "../types/props";
+import Nodejs from "../components/framework/nodejs";
+import Docker from "../components/framework/docker";
+import DockerCompose from "../components/framework/docker-compose";
+import { Env } from "../types/schemas";
+import { createProject } from "../apis/project";
 
 export default function ImportProject() {
-  const [framework, setFramework] = useState([]);
+  const [frameworks, setFrameworks] = useState<Array<FrameworkInfo>>([]);
+  const [frameworkInfo, setFrameworkInfo] = useState<FrameworkInfo>();
   const { state } = useLocation();
   // @ts-ignore
-  const { gitURL } = state;
+  const { gitURL, gitID } = state;
   // @ts-ignore
   const project = _.first(_.last(gitURL.split("/")).split("."));
   // @ts-ignore
@@ -22,9 +26,13 @@ export default function ImportProject() {
   const [envs, setEnvs] = useState<Array<Env>>([]);
   const [envName, setEnvName] = useState("");
   const [envValue, setEnvValue] = useState("");
+  const [root, setRoot] = useState("./");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     (async () => {
-      setFramework(await getFramework());
+      const data = await getAllFramework();
+      setFrameworks(data);
+      setFrameworkInfo(data[0]);
     })();
   }, []);
 
@@ -56,13 +64,51 @@ export default function ImportProject() {
     });
     setEnvs((envs) => [...envs]);
   };
+  const Framework = (props: FrameworkProps) => {
+    switch (props.info.type) {
+      case "html":
+        return <Html {...props} />;
+      case "NodeJS":
+        return <Nodejs {...props} />;
+      case "Docker":
+        return <Docker {...props} />;
+      case "docker-compose":
+        return <DockerCompose {...props} />;
+      default:
+        return <div>Unsupported framework</div>;
+    }
+  };
+
+  const submitProject = async () => {
+    setLoading(true);
+    await createProject({
+      deployment: {},
+      env: envs,
+      framework: frameworkInfo?.type ?? "",
+      git_provider_id: gitID,
+      image: frameworkInfo?.image ?? "",
+      name: projectName,
+      root: root,
+      url: gitURL,
+    })
+      .finally(() => {
+        setLoading(false);
+      })
+      .then(() => {
+        toast.success("Add project success!");
+      });
+  };
 
   return (
     <div>
       <header className="bg-white shadow">
         <div className="flex items-center max-w-7xl mx-auto py-6">
           <h1 className="text-3xl font-bold text-gray-900">Import Project</h1>
-          <Link className="btn ml-auto" to="/new-project">
+          <Link
+            className="btn ml-auto"
+            to="/new-project"
+            state={{ defaultGitID: gitID }}
+          >
             Back
           </Link>
         </div>
@@ -83,10 +129,20 @@ export default function ImportProject() {
             </div>
             <div>
               <div className="mb-2 text-sm text-gray-500">FRAMEWORK PRESET</div>
-              <select className="select select-bordered w-full">
-                {framework.map((f) => (
-                  <option value={f} key={f}>
-                    {f}
+              <select
+                className="select select-bordered w-full"
+                value={frameworkInfo?.type}
+                onChange={(e) =>
+                  setFrameworkInfo(
+                    _.find(frameworks, function (f) {
+                      return f.type === e.target.value;
+                    })
+                  )
+                }
+              >
+                {frameworks.map((f) => (
+                  <option value={f.type} key={f.type}>
+                    {f.type}
                   </option>
                 ))}
               </select>
@@ -95,8 +151,9 @@ export default function ImportProject() {
               <div className="mb-2 text-sm text-gray-500">ROOT DIRECTORY</div>
               <input
                 type="text"
-                value="./"
+                value={root}
                 className="input input-bordered w-full"
+                onChange={(event) => setRoot(event.target.value)}
               />
             </div>
             <div>
@@ -106,7 +163,7 @@ export default function ImportProject() {
                   Build and Output Settings
                 </div>
                 <div className="collapse-content">
-                  <p>hello</p>
+                  <Framework info={frameworkInfo ?? { type: "", image: "" }} />
                 </div>
               </div>
             </div>
@@ -171,7 +228,12 @@ export default function ImportProject() {
                 </div>
               </div>
             </div>
-            <button className="btn">Deploy</button>
+            <button
+              className={"btn" + (loading ? " loading" : "")}
+              onClick={() => submitProject()}
+            >
+              Submit
+            </button>
           </div>
         </div>
       </div>

@@ -2,11 +2,10 @@ import { ImportProps } from "../types/props";
 import { formatTime } from "../utils";
 import { useEffect, useState } from "react";
 import _ from "lodash";
-import GitIcon from "./git-icon";
 import { getGitRepos } from "../apis/git";
 import { Repo } from "../types/responses";
-import { Link } from "react-router-dom";
 import LinkImport from "./link-import";
+import Git from "../icon/git";
 
 export default function Import(props: ImportProps) {
   const [keyword, setKeyword] = useState("");
@@ -53,7 +52,7 @@ export default function Import(props: ImportProps) {
                     (e.target as HTMLButtonElement).blur();
                   }}
                 >
-                  {<GitIcon type={g.type} size="1.5em" />}
+                  {<Git type={g.type} size="1.5em" />}
                   {g.name}
                 </button>
               </li>
@@ -113,7 +112,7 @@ export default function Import(props: ImportProps) {
                   {formatTime(r.pushed_at)}
                 </div>
                 <div className="ml-auto">
-                  <LinkImport gitURL={r.clone_url} />
+                  <LinkImport gitURL={r.clone_url} gitID={gitID} />
                 </div>
               </div>
             ))}

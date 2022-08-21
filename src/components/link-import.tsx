@@ -7,7 +7,7 @@ export default function LinkImport(props: LinkImportProps) {
     <Link
       to="/import-project"
       className="btn"
-      state={{ gitURL: props.gitURL }}
+      state={{ gitURL: props.gitURL, gitID: props.gitID }}
       onClick={(e) => {
         if (props.gitURL.trim() === "") {
           toast.error("Must set git url!");

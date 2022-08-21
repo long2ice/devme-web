@@ -1,4 +1,5 @@
-import { GitProvider } from "./responses";
+import { FrameworkInfo, GitProvider } from "./responses";
+import { FrameworkType } from "./schemas";
 
 interface ImportProps {
   gitID: number;
@@ -14,6 +15,22 @@ interface GitIconProps {
 
 interface LinkImportProps {
   gitURL: string;
+  gitID?: number;
 }
 
-export type { ImportProps, GitIconProps, LinkImportProps };
+interface FrameworkProps {
+  info: FrameworkInfo;
+}
+
+interface FrameworkIconProps {
+  framework: FrameworkType;
+  size?: string;
+}
+
+export type {
+  ImportProps,
+  GitIconProps,
+  LinkImportProps,
+  FrameworkProps,
+  FrameworkIconProps,
+};

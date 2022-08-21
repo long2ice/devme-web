@@ -4,16 +4,18 @@ import { IoMdAdd } from "react-icons/io";
 import { BiGitBranch } from "react-icons/bi";
 import { GitProvider } from "../types/responses";
 import Import from "../components/import";
-import GitIcon from "../components/git-icon";
-import { Link } from "react-router-dom";
 import LinkImport from "../components/link-import";
+import { useLocation } from "react-router-dom";
+import Git from "../icon/git";
 
 export default function NewProject() {
   const [gitProviders, setGitProviders] = useState<Array<GitProvider>>([]);
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
   const [type, setType] = useState("github");
-  const [gitID, setGitID] = useState(0);
+  const { state } = useLocation();
+  // @ts-ignore
+  const [gitID, setGitID] = useState(state?.defaultGitID ?? 0);
   const [gitURL, setGitURL] = useState("");
 
   async function addGitProvider() {
@@ -50,8 +52,8 @@ export default function NewProject() {
                     Import a Third-Party Git Repository
                   </h3>
                   <div className="flex gap-4">
-                    <GitIcon type="github" />
-                    <GitIcon type="gitlab" />
+                    <Git type="github" />
+                    <Git type="gitlab" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -102,7 +104,7 @@ export default function NewProject() {
                     key={g.id}
                     onClick={() => setGitID(g.id)}
                   >
-                    <GitIcon
+                    <Git
                       type={g.type}
                       size="1.5em"
                       className="self-start absolute"
@@ -115,7 +117,7 @@ export default function NewProject() {
                     onClick={() => setGitID(g.id)}
                     className="flex flex-col justify-center justify-start btn gap-4 bg-orange-500 hover:bg-orange-600 border-orange-500 hover:border-orange-600"
                   >
-                    <GitIcon
+                    <Git
                       type={g.type}
                       size="1.5em"
                       className="self-start absolute"
@@ -160,7 +162,7 @@ export default function NewProject() {
                       </label>
                       <div className="flex gap-4">
                         <label className="flex gap-2 items-center">
-                          <GitIcon type="github" />
+                          <Git type="github" />
                           <input
                             type="radio"
                             name="type"
@@ -174,7 +176,7 @@ export default function NewProject() {
                           />
                         </label>
                         <label className="flex gap-2 items-center">
-                          <GitIcon type="gitlab" />
+                          <Git type="gitlab" />
                           <input
                             type="radio"
                             name="type"

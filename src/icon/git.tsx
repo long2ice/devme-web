@@ -1,7 +1,7 @@
 import { FaGit, FaGithub, FaGitlab } from "react-icons/fa";
 import { GitIconProps } from "../types/props";
 
-export default function GitIcon(props: GitIconProps) {
+export default function Git(props: GitIconProps) {
   let size = props.size ?? "2em";
   switch (props.type) {
     case "github":

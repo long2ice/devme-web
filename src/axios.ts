@@ -9,15 +9,6 @@ http.interceptors.response.use(
     return response;
   },
   function (error) {
-    toast.error(error.response.data.error);
-    return Promise.reject(error);
-  }
-);
-http.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
     let response = error.response;
     if (response.status < 500) {
       toast.error(response.data.error);
