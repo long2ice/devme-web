@@ -7,6 +7,7 @@ import Import from "../components/import";
 import LinkImport from "../components/link-import";
 import { useLocation } from "react-router-dom";
 import Git from "../icon/git";
+import { toast } from "react-toastify";
 
 export default function NewProject() {
   const [gitProviders, setGitProviders] = useState<Array<GitProvider>>([]);
@@ -17,9 +18,15 @@ export default function NewProject() {
   // @ts-ignore
   const [gitID, setGitID] = useState(state?.defaultGitID ?? 0);
   const [gitURL, setGitURL] = useState("");
+  const [addGitLoading, setAddGitLoading] = useState(false);
 
   async function addGitProvider() {
-    await addGit(name, type, token);
+    setAddGitLoading(true);
+    await addGit(name, type, token)
+      .finally(() => setAddGitLoading(false))
+      .then(() => {
+        toast.success("Add git provider success!");
+      });
   }
 
   useEffect(() => {
@@ -206,8 +213,10 @@ export default function NewProject() {
                     </div>
                     <div className="modal-action">
                       <button
-                        className="btn"
-                        onClick={async () => await addGitProvider()}
+                        className={"btn" + (addGitLoading ? " loading" : "")}
+                        onClick={async () => {
+                          await addGitProvider();
+                        }}
                       >
                         Save
                       </button>
