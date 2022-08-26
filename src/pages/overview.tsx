@@ -1,7 +1,7 @@
 import { IoMdAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProject } from "../apis/project";
+import { getProjects } from "../apis/project";
 import { Project } from "../types/responses";
 import { formatTime } from "../utils";
 import FrameworkIcon from "../icon/framework";
@@ -12,7 +12,7 @@ export default function Overview() {
   const [showLink, setShowLink] = useState(0);
   useEffect(() => {
     (async () => {
-      let data = await getProject();
+      let data = await getProjects();
       setProjects(data);
     })();
   }, []);

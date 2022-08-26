@@ -11,7 +11,7 @@ export default function FrameworkIcon(props: FrameworkIconProps) {
       return <GrDocker color="#0ea5e9" size={props.size} />;
     case "NodeJS":
       return <FaNodeJs color="#10b981" size={props.size} />;
-    case "Html":
+    case "html":
       return <IoLogoHtml5 color="#f97316" size={props.size} />;
   }
 }

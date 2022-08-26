@@ -3,6 +3,6 @@ interface Env {
   value: string;
 }
 
-type FrameworkType = "Html" | "Docker" | "docker-compose" | "NodeJS";
+type FrameworkType = "html" | "Docker" | "docker-compose" | "NodeJS";
 
 export type { Env, FrameworkType };

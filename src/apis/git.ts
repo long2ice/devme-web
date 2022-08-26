@@ -20,4 +20,16 @@ async function getGitRepos(id: number): Promise<Array<Repo>> {
   return res.data;
 }
 
-export { getGit, addGit, getGitRepos };
+async function getGitRepoBranches(
+  id: number,
+  url: string
+): Promise<Array<string>> {
+  const res = await axios.get(`/git/${id}/repo/branches`, {
+    params: {
+      url,
+    },
+  });
+  return res.data;
+}
+
+export { getGit, addGit, getGitRepos, getGitRepoBranches };
